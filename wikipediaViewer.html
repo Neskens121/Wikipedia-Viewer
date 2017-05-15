@@ -2,9 +2,45 @@
 <html>
 <head>
 	<title>Wikipedia Viewer</title>
+	<style>
+		.spinner:before {
+		  content: '';
+		  box-sizing: border-box;
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  width: 20px;
+		  height: 20px;
+		  margin-top: -10px;
+		  margin-left: -10px;
+		  border-radius: 50%;
+		  border: 2px solid #ccc;
+		  border-top-color: #333;
+		  animation: spinner .6s linear infinite;
+		}
+
+		@keyframes spinner {
+		  to {transform: rotate(360deg);}
+		}
+
+		#wrapper {
+			height: 100vh;
+    		background-color: green;
+    		opacity: 0;
+    		transition: opacity 1s ease-in-out;
+		}
+
+		#wrapper.active {
+			opacity: 1;
+		}
+
+
+
+	</style>
 </head>
 
 <body>
+	<div id="wrapper">
 	<form id="searchForm" action="#">
 		<input type="text" name="searchTerm" id="searchTerm">
 		<input type="submit" style="position: absolute; left: -9999px"/>
@@ -12,26 +48,36 @@
 	<ul id="demo">
 		
 	</ul>
+	<div id="testDiv"></div>
+	</div>
 	<script>
 
 		var list = document.getElementById('demo');
 		var searchTermElement = document.getElementById('searchTerm');
 		var searchForm = document.getElementById('searchForm');
+		var testDiv = document.getElementById('testDiv');
+		var wrapper = document.getElementById('wrapper');
 
 		searchTermElement.addEventListener('keypress', function(evt){
 			console.log(evt);
 			if (evt.keyCode == 13 || evt.keyCode == 13) {
-				console.log(evt);
 				evt.preventDefault(); 
+				console.log(evt);
+				testDiv.classList.add('spinner');
+				wrapper.classList.add('active');
+				document.getElementById("demo").innerHTML = "";
+				fetchSearchResults(searchTermElement.value)
+				
 			} else {console.log(evt.keyCode);}
 		}, false);
 
-function fetchSearchResults(){
-	fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&generator=search&exlimit=10&exsentences=6&exintro=1&explaintext=1&gsrsearch=' + searchTerm.innerText).then(function(response) {
+function fetchSearchResults(searchTerm){
+	fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&generator=search&exlimit=10&exsentences=6&exintro=1&explaintext=1&gsrsearch=' + searchTerm).then(function(response) {
 		return response.json();
 	}).then(function(response){
 		var result = response['query']['pages'];
-		console.log(result)
+		console.log(result);
+		testDiv.classList.remove('spinner');
 		Object.keys(result).forEach(function(item){
 				//console.log(result[item]['extract'])
 				var entry = document.createElement('li');
