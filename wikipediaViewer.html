@@ -2,23 +2,17 @@
 <html>
 <head>
 	<title>Wikipedia Viewer</title>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<style>
-		.spinner { position: relative; }
+		ul {
+		  list-style-type: none;
+		}
 
-		.spinner:after {
-			content: '';
-			box-sizing: border-box;
-			position: absolute;
-			/*top: 50%;
-			left: 50%;*/
-			width: 20px;
-			height: 20px;
-			/*margin-top: -10px;*/
-			margin-left: 10px;
-			border-radius: 50%;
-			border: 2px solid #ccc;
-			border-top-color: #333;
-			animation: spinner .6s linear infinite;
+		.spinner{
+			animation: spinner 0.7s linear infinite;
 		}
 
 		@keyframes spinner {
@@ -29,12 +23,15 @@
 </head>
 
 <body>
-	<div id="wrapper">
-		<form id="searchForm" action="#">
+	<div id="wrapper" class="container-fluid wrapper">
+		<form id="searchForm" action="#" class="row form-group">
 			<input type="text" name="searchTerm" id="searchTerm">
-			<input type="submit" style="position: absolute; left: -9999px"/>
+			<button type="submit" class="btn btn-default searchSubmit" id="searchSubmit">
+       		 	<i class="fa fa-search" aria-hidden="true" id="magn-glass"></i>
+      		</button>
+			<!--<input type="submit" class="btn btn-default" style="position: absolute; left: -9999px"/>-->
 		</form>
-		<ul id="resultList">
+		<ul id="resultList" class="row">
 
 		</ul>
 	</div>
@@ -43,17 +40,30 @@
 		var list = document.getElementById('resultList');
 		var searchTermElement = document.getElementById('searchTerm');
 		var searchForm = document.getElementById('searchForm');
+		var searchBtn = document.getElementById('searchSubmit');
 
 
-		searchTermElement.addEventListener('keypress', function(evt){
+		searchBtn.addEventListener('click', function(evt){
 			console.log(evt);
-			if (evt.keyCode == 13 || evt.keyCode == 13) {
+			if(searchTermElement.value){
 				evt.preventDefault(); 
 				console.log(evt);
 				toggleSpinner();
 				document.getElementById("resultList").innerHTML = "";
 				fetchSearchResults(searchTermElement.value)
-				
+			}
+		}, false);
+
+
+		searchTermElement.addEventListener('keypress', function(evt){
+			console.log(evt);
+			if (evt.keyCode == 13 || evt.keyCode == 13) {
+				if(searchTermElement.value){evt.preventDefault(); 
+					console.log(evt);
+					toggleSpinner();
+					document.getElementById("resultList").innerHTML = "";
+					fetchSearchResults(searchTermElement.value)	
+				}
 			} else {console.log(evt.keyCode);}
 		}, false);
 
@@ -65,8 +75,17 @@
 				var result = response['query']['pages'];
 				console.log(result);
 				Object.keys(result).forEach(function(item){
+					var htLink = document.createElement('a');
+					htLink.href = 'https://en.wikipedia.org/wiki/' + result[item]['title'];
+					var title = document.createElement('h3');
+					title.appendChild(document.createTextNode(result[item]['title']));
+					var extract = document.createElement('p');
+					extract.appendChild(document.createTextNode(result[item]['extract']));
 					var entry = document.createElement('li');
-					entry.appendChild(document.createTextNode(result[item]['title']));
+					
+					htLink.appendChild(title);
+					htLink.appendChild(extract);
+					entry.appendChild(htLink);
 					list.appendChild(entry);
 					console.log(result[item]['title'])
 				})
@@ -74,8 +93,9 @@
 		}
 
 		function toggleSpinner(){
-			var inp = document.getElementById('searchForm');
-			inp.classList.toggle("spinner");
+			var magnGlass = document.getElementById('magn-glass');
+			//inp.classList.toggle("spinner");
+			magnGlass.classList.toggle("spinner");
 		}
 	</script>
 </body>
