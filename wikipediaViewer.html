@@ -11,6 +11,15 @@
 		  list-style-type: none;
 		}
 
+
+		a:hover,
+		a:visited,
+		a:active,
+		a:link {
+		  text-decoration: none;
+		  color: #333;
+		}
+
 		.spinner{
 			animation: spinner 0.7s linear infinite;
 		}
@@ -77,6 +86,7 @@
 				Object.keys(result).forEach(function(item){
 					var htLink = document.createElement('a');
 					htLink.href = 'https://en.wikipedia.org/wiki/' + result[item]['title'];
+					htLink.target="_blank";
 					var title = document.createElement('h3');
 					title.appendChild(document.createTextNode(result[item]['title']));
 					var extract = document.createElement('p');
