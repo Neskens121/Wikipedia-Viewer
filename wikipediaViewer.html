@@ -2,13 +2,14 @@
 <html>
 <head>
 	<title>Wikipedia Viewer</title>
+	<script src="//js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
 	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<style>
 		ul {
-		  list-style-type: none;
+			list-style-type: none;
 		}
 
 
@@ -16,8 +17,8 @@
 		a:visited,
 		a:active,
 		a:link {
-		  text-decoration: none;
-		  color: #333;
+			text-decoration: none;
+			color: #333;
 		}
 
 		.spinner{
@@ -34,10 +35,11 @@
 <body>
 	<div id="wrapper" class="container-fluid wrapper">
 		<form id="searchForm" action="#" class="row form-group">
-			<input type="text" name="searchTerm" id="searchTerm">
+			<input type="text" name="searchTerm" id="searchTerm" list="searchFormDtList">
+			<datalist id="searchFormDtList"></datalist>
 			<button type="submit" class="btn btn-default searchSubmit" id="searchSubmit">
-       		 	<i class="fa fa-search" aria-hidden="true" id="magn-glass"></i>
-      		</button>
+				<i class="fa fa-search" aria-hidden="true" id="magn-glass"></i>
+			</button>
 			<!--<input type="submit" class="btn btn-default" style="position: absolute; left: -9999px"/>-->
 		</form>
 		<ul id="resultList" class="row">
@@ -50,7 +52,57 @@
 		var searchTermElement = document.getElementById('searchTerm');
 		var searchForm = document.getElementById('searchForm');
 		var searchBtn = document.getElementById('searchSubmit');
+		var clientCountryCode;
+		var dtList = document.getElementById('searchFormDtList');
+		var searchTerm = document.querySelectorAll('[name="searchTerm"]');
 
+		searchTerm[0].addEventListener('keyup', function(evt){
+			console.log(evt);
+			console.log(evt.keyCode);
+			console.log(searchTerm[0].value)
+			var scriptEl = document.createElement('script');
+			scriptEl.setAttribute('src', 'http://suggestqueries.google.com/complete/search?client=firefox&q=' + searchTerm[0].value + '&hl=' + clientCountryCode + '&callback=myJsonpCallback');
+			document.body.appendChild(scriptEl);
+		}, false);
+
+
+		var onError = function(error){
+
+		};
+
+		var onSuccess = function(location){
+			console.log(location);
+			clientCountryCode = location['country']['iso_code']
+
+			var scriptEl = document.createElement('script');
+			scriptEl.setAttribute('src', 'http://suggestqueries.google.com/complete/search?client=firefox&q=henry&hl='+ clientCountryCode +'&callback=myJsonpCallback');
+			document.body.appendChild(scriptEl);
+		}
+
+
+		geoip2.city(onSuccess, onError);
+
+
+
+		var myJsonpCallback = function(data) {
+			while (dtList.firstChild) {
+				dtList.removeChild(dtList.firstChild);
+			}
+			console.log(dtList);
+			data[1].forEach(function callback(currentValue, index, array) {
+				var newItem = document.createElement('option');
+				newItem.value = currentValue;
+				dtList.appendChild(newItem);
+			});
+
+
+
+
+			data[1].forEach(function callback(currentValue, index, array) {
+				console.log(currentValue)
+			});
+			console.log(data[1])
+		};
 
 		searchBtn.addEventListener('click', function(evt){
 			console.log(evt);
@@ -92,7 +144,7 @@
 					var extract = document.createElement('p');
 					extract.appendChild(document.createTextNode(result[item]['extract']));
 					var entry = document.createElement('li');
-					
+
 					htLink.appendChild(title);
 					htLink.appendChild(extract);
 					entry.appendChild(htLink);
@@ -104,7 +156,6 @@
 
 		function toggleSpinner(){
 			var magnGlass = document.getElementById('magn-glass');
-			//inp.classList.toggle("spinner");
 			magnGlass.classList.toggle("spinner");
 		}
 	</script>
