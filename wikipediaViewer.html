@@ -40,6 +40,7 @@
 			<button type="submit" class="btn btn-default searchSubmit" id="searchSubmit">
 				<i class="fa fa-search" aria-hidden="true" id="magn-glass"></i>
 			</button>
+			<button id="test" class="btn btn-default">Sort</button>
 			<!--<input type="submit" class="btn btn-default" style="position: absolute; left: -9999px"/>-->
 		</form>
 		<ul id="resultList" class="row">
@@ -55,6 +56,7 @@
 		var clientCountryCode;
 		var dtList = document.getElementById('searchFormDtList');
 		var searchTerm = document.querySelectorAll('[name="searchTerm"]');
+		var sortBtn = document.getElementById('test');
 
 		searchTerm[0].addEventListener('keyup', function(evt){
 			console.log(evt);
@@ -158,7 +160,55 @@
 			var magnGlass = document.getElementById('magn-glass');
 			magnGlass.classList.toggle("spinner");
 		}
-	</script>
+
+		sortBtn.addEventListener('click', sortListDir, false)
+
+
+
+		function sortListDir(event) {
+			if ( event.preventDefault ){ event.preventDefault();}
+  			event.returnValue = false;
+			var i, switching, b, shouldSwitch, dir, switchcount = 0;
+			switching = true;
+			dir = "asc"; 
+			while (switching) {
+				switching = false;
+				console.log(list);
+				//debugger
+				//b = list.getElementsByTagName("LI").getElementsByTagName("a").getElementsByTagName("h3");
+				b = document.querySelectorAll('#resultList h3')
+				console.log(b[0].parentNode)
+				console.log(b[0].parentNode.parentNode.parentNode)
+				console.log(b[0].parentNode.parentNode)
+				debugger
+				for (i = 0; i < (b.length - 1); i++) {
+					shouldSwitch = false;
+					if (dir == "asc") {
+						if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+							shouldSwitch= true;
+							break;
+						}
+					} else if (dir == "desc") {
+						if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
+							shouldSwitch= true;
+							break;
+						}
+					}
+				}
+				if (shouldSwitch) {
+					b[i].parentNode.parentNode.parentNode.insertBefore(b[i + 1].parentNode.parentNode, b[i].parentNode.parentNode);
+					switching = true;
+					switchcount ++;
+				} else {
+					if (switchcount == 0 && dir == "asc") {
+						dir = "desc";
+						switching = true;
+					}
+				}
+			}
+			return false;
+		}
+</script>
 </body>
 
 </html>
