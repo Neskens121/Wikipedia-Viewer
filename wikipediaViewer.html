@@ -29,23 +29,50 @@
 			to {transform: rotate(360deg);}
 		}
 
-
-				/* styles for '...' */ 
-		.block-with-text {
-		  /* hide text if it more than N lines  */
-		  overflow: hidden;
-		  /* for set '...' in absolute position */
-		  position: relative;
-		  /* use this value to count block height */
-		  line-height: 1.2em;
-		  /* max-height = line-height (1.2) * lines max number (3) */
-		  max-height: 3.6em; 
-		  /* fix problem when last visible word doesn't adjoin right side  */
-		  /*text-align: justify;  */
-		  /* place for '...' */
-		  margin-right: 1em;
-		  padding-right: 1em;
+		/*.liContainer {
+		    background-color: #eee;
+		    /*width:100px;*/
+		 /*   margin:20px;
+		    /*float:left;*/
+		/*}
+		/*.image {
+		    border:2px solid #999;
+		    width:100px;
+		    height:60px;
+		    background-color: #fff;
+		    margin-bottom:10px;
 		}
+		.end {
+		    border:2px solid #999;
+		    width:100px;
+		    background-color: #fff;
+		}*/
+		.ellipsis {
+		    overflow: hidden;
+		    max-height: 200px;
+		    line-height: 25px;
+		    margin-bottom:10px;
+		    position:relative;
+		    display: block;
+
+
+		}
+		.ellipsis:after {
+		    content:"\02026";
+		    position: absolute;
+		    top: 200px;
+		    right: 0px;
+		    margin-top: -20px;
+		    box-sizing: content-box;
+		    -webkit-box-sizing: content-box;
+		    -moz-box-sizing: content-box;
+		    width: 20px;
+		    margin-left: -20px;
+		    padding-right: 5px;
+		    text-align: right;
+		    /*background-color:#eee;*/
+		}
+
 
 	</style>
 </head>
@@ -159,18 +186,24 @@
 					var htLink = document.createElement('a');
 					htLink.href = 'https://en.wikipedia.org/wiki/' + result[item]['title'];
 					htLink.target="_blank";
+					htLink.classList.add('ellipsis')
 					var title = document.createElement('h3');
 					title.appendChild(document.createTextNode(result[item]['title']));
 					var extract = document.createElement('p');
-					extract.classList.add('block-with-text')
+					//extract.classList.add('block-with-text')
 					extract.appendChild(document.createTextNode(result[item]['extract']));
 					var entry = document.createElement('li');
+					entry.classList.add('liContainer');
+
 
 					htLink.appendChild(title);
 					htLink.appendChild(extract);
 					entry.appendChild(htLink);
 					list.appendChild(entry);
+					console.log(extract.offsetHeight);
+					console.log(entry.offsetHeight);
 					console.log(result[item]['title'])
+					
 				})
 			});
 		}
