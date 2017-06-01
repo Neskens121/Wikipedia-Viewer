@@ -28,6 +28,8 @@
 		@keyframes spinner {
 			to {transform: rotate(360deg);}
 		}
+		
+
 
 		/*.liContainer {
 		    background-color: #eee;
@@ -49,13 +51,11 @@
 		}*/
 		.ellipsis {
 		    overflow: hidden;
-		    max-height: 200px;
+		    max-height: 100px;
 		    line-height: 25px;
 		    margin-bottom:10px;
 		    position:relative;
 		    display: block;
-
-
 		}
 		.ellipsis:after {
 		    content:"\02026";
@@ -71,7 +71,7 @@
 		    padding-right: 5px;
 		    text-align: right;
 		    /*background-color:#eee;*/
-		}
+		/
 
 
 	</style>
@@ -91,6 +91,9 @@
 		<ul id="resultList" class="row">
 
 		</ul>
+		<ul id="hiddenList" class="row" style="visibility:hidden;">
+			
+		</ul>
 	</div>
 	<script>
 
@@ -102,6 +105,7 @@
 		var dtList = document.getElementById('searchFormDtList');
 		var searchTerm = document.querySelectorAll('[name="searchTerm"]');
 		var sortBtn = document.getElementById('test');
+		var hiddenList = document.getElementById('hiddenList');
 
 		searchTerm[0].addEventListener('keyup', function(evt){
 			console.log(evt);
@@ -199,14 +203,29 @@
 					htLink.appendChild(title);
 					htLink.appendChild(extract);
 					entry.appendChild(htLink);
+					
+
+
 					list.appendChild(entry);
+					//hiddenList.appendChild(entry);
+
 					console.log(extract.offsetHeight);
 					console.log(entry.offsetHeight);
+					addEllipsis(extract, entry.offsetHeight)
+
 					console.log(result[item]['title'])
 					
 				})
 			});
 		}
+
+		function addEllipsis(element, maxLength){
+			if(element.offsetHeight > maxLength){ element.innerHTML += '<a class="jovan">...</a>';}
+				console.log(element);
+				return element;
+
+		}
+
 
 		function toggleSpinner(){
 			var magnGlass = document.getElementById('magn-glass');
