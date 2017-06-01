@@ -51,13 +51,13 @@
 		}*/
 		.ellipsis {
 		    overflow: hidden;
-		    max-height: 100px;
+		    max-height: 200px;
 		    line-height: 25px;
 		    margin-bottom:10px;
 		    position:relative;
 		    display: block;
 		}
-		.ellipsis:after {
+		/*.ellipsis:after {
 		    content:"\02026";
 		    position: absolute;
 		    top: 200px;
@@ -69,9 +69,9 @@
 		    width: 20px;
 		    margin-left: -20px;
 		    padding-right: 5px;
-		    text-align: right;
+		  /*  text-align: right;
 		    /*background-color:#eee;*/
-		/
+		/*}
 
 
 	</style>
@@ -211,7 +211,7 @@
 
 					console.log(extract.offsetHeight);
 					console.log(entry.offsetHeight);
-					addEllipsis(extract, entry.offsetHeight)
+					addEllipsis(extract, entry.offsetHeight-title.offsetHeight)
 
 					console.log(result[item]['title'])
 					
@@ -220,9 +220,28 @@
 		}
 
 		function addEllipsis(element, maxLength){
-			if(element.offsetHeight > maxLength){ element.innerHTML += '<a class="jovan">...</a>';}
-				console.log(element);
-				return element;
+			var extraCharacter = '';
+			if(element.offsetHeight > maxLength){
+				console.log(!element.childNodes[1])
+				if(!element.childNodes[1]){
+					var ellipsisElement = document.createElement('span');
+					var textElement = document.createTextNode(' ...');
+					ellipsisElement.appendChild(textElement);
+					ellipsisElement.classList.add('jovan');
+					element.appendChild(ellipsisElement);
+					var counter= 0;
+					var hiddenText = document.createElement('span');
+					hiddenText.style.display = "none";
+					element.appendChild(hiddenText);
+				}
+				console.log(hiddenText)
+
+				if(hiddenText){console.log(counter++)}//element.childNodes[0].nodeValue.substring(element.childNodes[0].nodeValue.lastIndexOf(" "));}
+				element.childNodes[0].nodeValue = element.childNodes[0].nodeValue.substring(0, element.childNodes[0].nodeValue.lastIndexOf(" "));
+				//console.log(element.childNodes[0].nodeValue);
+				//console.log(element);
+				return addEllipsis(element, maxLength);
+			}	else {return element;}
 
 		}
 
