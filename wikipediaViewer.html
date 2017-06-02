@@ -222,24 +222,25 @@
 		function addEllipsis(element, maxLength){
 			var extraCharacter = '';
 			if(element.offsetHeight > maxLength){
-				console.log(!element.childNodes[1])
-				if(!element.childNodes[1]){
+				console.log(element.childNodes.length<2)
+				if(element.childNodes.length<2){
 					var ellipsisElement = document.createElement('span');
 					var textElement = document.createTextNode(' ...');
 					ellipsisElement.appendChild(textElement);
 					ellipsisElement.classList.add('jovan');
 					element.appendChild(ellipsisElement);
-					var counter= 0;
+					var counter = 0;
 					var hiddenText = document.createElement('span');
 					hiddenText.style.display = "none";
 					element.appendChild(hiddenText);
 				}
+				//debugger;
 				console.log(hiddenText)
 
-				if(hiddenText){console.log(counter++)}//element.childNodes[0].nodeValue.substring(element.childNodes[0].nodeValue.lastIndexOf(" "));}
+				element.childNodes[2].innerHTML = element.childNodes[0].nodeValue.substring(element.childNodes[0].nodeValue.lastIndexOf(" ")) + element.childNodes[2].innerHTML ;
 				element.childNodes[0].nodeValue = element.childNodes[0].nodeValue.substring(0, element.childNodes[0].nodeValue.lastIndexOf(" "));
 				//console.log(element.childNodes[0].nodeValue);
-				//console.log(element);
+				console.log(element);
 				return addEllipsis(element, maxLength);
 			}	else {return element;}
 
