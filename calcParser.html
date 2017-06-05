@@ -3,15 +3,15 @@
 <head>
 	<title></title>
 	<script type="text/javascript">
-		var test = '2+244';
+		var test = '2*1000+6+26-8+6*2-1*1000/2-1*1536';
 		var testArr = test.split(/([\+\-\*\/])/g);
-		var tokens = [];
 		var operators = ['+', '-', '*', '/'];
-
-		function Token(kind, value) {
+		//var tokens = [];
+	
+		/*function Token(kind, value) {
 			this.kind = kind;
 			this.value = value;
-		}
+		}*/
 
 		/*testArr.forEach(function(element){
 			if(operators.indexOf(element) !== -1){
@@ -24,25 +24,26 @@
 		function expression (){
 			var left = term();
 			var token = getNextToken();
-			console.log(token);
-
-			
 			while(true){
 				console.log(token);
 				switch (token){
 					case '+': {
-						left += term();
-						//token = getNextToken();
-						return left;
+						console.log('plus');
+						var d = term();
+						left = parseFloat(left) + parseFloat(d);
+						token = getNextToken();
+						break;
 					}
 					case '-': {
+						console.log('minus');
 						var d = term();
-						console.log('ajnsao');
-						left -= d;
-						//token = getNextToken();
-						return left;
+						left = parseFloat(left) - parseFloat(d);;
+						token = getNextToken();
+						break;
 					}
 					default: {
+						console.log('ni plus ni minus')
+						counter.decrement();
 						return left;
 					}
 				}
@@ -50,26 +51,29 @@
 		} 
 
 
-
 		function term(){
 			var left = primary();
 			var token = getNextToken();
-			//console.log(left);
-			console.log(token);	
+		
 			while(true){
 				switch(token){
 					case '*': {
-						left *= primary();
-						//token = getNextToken();
-						return left;
+						console.log('*')
+						var d = primary();
+						left = parseFloat(left) * parseFloat(d);
+						token = getNextToken();
+						break;
 					}
 					case '/': {
+						console.log('/')
 						var d = primary();
-						left /= d;
-						//token = getNextToken();
-						return left;
+						left = parseFloat(left) / parseFloat(d);;
+						token = getNextToken();
+						break;
 					}
 					default: {
+						console.log('nije */')
+						counter.decrement();
 						return left;
 					}
 				}
@@ -77,57 +81,46 @@
 			}
 		}
 
-function primary()
-{
-	var token = getNextToken();
-	console.log(token);
-	
-	switch (true) {
-		case '(' :  
-		{ 
-			//var d = expression();
-			//var nextToken = getNextToken();
-			return d;
+		function primary()
+		{
+			var token = getNextToken();
+			switch (true) {
+				case '(' :  
+				{ 
+					var d = expression();
+					var nextToken = getNextToken();
+					return d;
+				}
+				case (parseInt(token) < Math.pow(10, 1000)) : {
+					console.log('brojka');
+					return token;
+				}
+				default: {
+					console.log('nije brojka')
+					return token;
+				}
+			}
 		}
-		case (parseInt(token) < Math.pow(10, 1000)) : {
-			console.log('sa')
-			return token
-		}
-		default: {
-			break;
-		}
-	}
-}
 
-var counter = (function() {
-	var privateCounter = 0;
-	function changeBy(val) {
-		privateCounter += val;
-	}
-	return {
-		increment: function() {
-			changeBy(1);
-		},
-		decrement: function() {
-			changeBy(-1);
-		},
-		value: function() {
-			return privateCounter;
-		}
-	}
-})();
+		var counter = (function() {
+			var privateCounter = 0;
+			function changeBy(val) {
+				privateCounter += val;
+			}
+			return {
+				increment: function() {changeBy(1);},
+				decrement: function() {changeBy(-1);},
+				value: function() {return privateCounter;}
+			}
+		})();
 
-function getNextToken(){
-  //if(counter.value < testArr.length){
-  	console.log(counter.value());
-  	var currentMemeber = counter.value();
-  	counter.increment();
-  	return testArr[currentMemeber];
- //} else {return null;}
-}
+		function getNextToken(){
+		  	var currentMemeber = counter.value();
+		  	counter.increment();
+		  	return testArr[currentMemeber];
+		 }
 
-console.log(expression())
-
+		console.log(expression())
 </script>
 </head>
 <body>
