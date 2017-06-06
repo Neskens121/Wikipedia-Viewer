@@ -2,10 +2,18 @@
 <html>
 <head>
 	<title></title>
+
+</head>
+<body>
+	<input type="text" id="inputElement" name="">
+
+
+
 	<script type="text/javascript">
 		var test = '2*1000+6+26-8+6*2-1*1000/2-1*1536';
 		var testArr = test.split(/([\+\-\*\/])/g);
 		var operators = ['+', '-', '*', '/'];
+		var exprArr;
 		//var tokens = [];
 	
 		/*function Token(kind, value) {
@@ -21,7 +29,14 @@
 
 		console.log(testArr)
 
-		function expression (){
+		function calculate(expr){
+			exprArr = expr.split(/([\+\-\*\/])/g);
+			console.log(exprArr)
+			counter.reset();
+			return expression();
+		}
+
+		function expression(){
 			var left = term();
 			var token = getNextToken();
 			while(true){
@@ -110,6 +125,7 @@
 			return {
 				increment: function() {changeBy(1);},
 				decrement: function() {changeBy(-1);},
+				reset: function(){privateCounter = 0;},
 				value: function() {return privateCounter;}
 			}
 		})();
@@ -117,13 +133,26 @@
 		function getNextToken(){
 		  	var currentMemeber = counter.value();
 		  	counter.increment();
-		  	return testArr[currentMemeber];
+		  	return exprArr[currentMemeber];
 		 }
 
-		console.log(expression())
-</script>
-</head>
-<body>
+		 var inputElement = document.getElementById('inputElement')
 
+
+		 inputElement.addEventListener('keypress', function(evt){
+			console.log(evt);
+			if (evt.keyCode == 13 || evt.keyCode == 13) {
+				if(inputElement.value){
+					evt.preventDefault(); 
+					console.log(evt);
+					console.log(calculate(inputElement.value))
+					//toggleSpinner();
+					//document.getElementById("resultList").innerHTML = "";
+					//fetchSearchResults(searchTermElement.value)	
+				}
+			} else {console.log(evt.keyCode);}
+		}, false);
+		//console.log(expression())
+</script>
 </body>
 </html>
