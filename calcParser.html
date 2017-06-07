@@ -2,18 +2,91 @@
 <html>
 <head>
 	<title></title>
+<style type="text/css">
+.button {
+	
+	/*Step 2: Basic Button Styles*/
+	/*display: block;
+	height: 100px;
+	width: 300px;*/
+	background: #34696f;
+	border: 2px solid rgba(33, 68, 72, 0.59);
+	
+	/*Step 3: Text Styles*/
+	color: rgba(0, 0, 0, 0.55);
+	text-align: center;
+	font: bold 2em "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	
+	/*Step 4: Fancy CSS3 Styles*/
+	background: -webkit-linear-gradient(top, #34696f, #2f5f63);
+	background: -moz-linear-gradient(top, #34696f, #2f5f63);
+	background: -o-linear-gradient(top, #34696f, #2f5f63);
+	background: -ms-linear-gradient(top, #34696f, #2f5f63);
+	background: linear-gradient(top, #34696f, #2f5f63);
+	
+	-webkit-border-radius: 50px;
+	-khtml-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+	
+	-webkit-box-shadow: 0 8px 0 #1b383b;
+	-moz-box-shadow: 0 8px 0 #1b383b;
+	box-shadow: 0 8px 0 #1b383b;
+	
+	text-shadow: 0 2px 2px rgba(255, 255, 255, 0.2);
+	
+}
 
+/*Step 3: Link Styles*/
+a.button2 {
+	text-decoration: none;
+}
+
+/*Step 5: Hover Styles*/
+a.button:hover {
+	background: #3d7a80;
+	background: -webkit-linear-gradient(top, #3d7a80, #2f5f63);
+	background: -moz-linear-gradient(top, #3d7a80, #2f5f63);
+	background: -o-linear-gradient(top, #3d7a80, #2f5f63);
+	background: -ms-linear-gradient(top, #3d7a80, #2f5f63);
+	background: linear-gradient(top, #3d7a80, #2f5f63);
+}
+</style>
 </head>
 <body>
 	<input type="text" id="inputElement" name="">
-
-
+	<div id="buttons">
+		<button value="1" class="button">1</button>
+		<button value="2" class="button">2</button>
+		<button value="3" class="button">3</button>
+		<button value="4" class="button">4</button>
+		<button value="5" class="button">5</button>
+		<button value="6" class="button">6</button>
+		<button value="7" class="button">7</button>
+		<button value="8" class="button">8</button>
+		<button value="9" class="button">9</button>
+		<button value="0" class="button">0</button>
+		<button value="+" class="button">+</button>
+		<button value="-" class="button">-</button>
+		<button value="*" class="button">*</button>
+		<button value="/" class="button">/</button>
+		<button value="calculate" class="button">=</button>
+	</div>
 
 	<script type="text/javascript">
+		var buttons = document.getElementById('buttons');
 		var test = '2*1000+6+26-8+6*2-1*1000/2-1*1536';
 		var testArr = test.split(/([\+\-\*\/])/g);
 		var operators = ['+', '-', '*', '/'];
 		var exprArr;
+		var inputElement = document.getElementById('inputElement')
+
+		buttons.addEventListener('click', function(evt){
+			if(evt.target.value === "calculate"){
+				console.log(calculate(inputElement.value))
+			} else {inputElement.value += evt.target.value;}
+
+		},false)
 		//var tokens = [];
 	
 		/*function Token(kind, value) {
@@ -136,7 +209,6 @@
 		  	return exprArr[currentMemeber];
 		 }
 
-		 var inputElement = document.getElementById('inputElement')
 
 
 		 inputElement.addEventListener('keypress', function(evt){
