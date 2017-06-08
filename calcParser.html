@@ -51,26 +51,49 @@ a.button:hover {
 	background: -ms-linear-gradient(top, #3d7a80, #2f5f63);
 	background: linear-gradient(top, #3d7a80, #2f5f63);
 }
+
+
+button {
+  padding: 15px 25px;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #00FF7C;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 5px #999;
+  transition: background-color 0.3s;
+}
+
+button:hover {background-color: #3e8e41}
+
+button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 2px #666;
+  transform: translateY(4px);
+}
 </style>
 </head>
 <body>
 	<input type="text" id="inputElement" name="">
 	<div id="buttons">
-		<button value="1" class="button">1</button>
-		<button value="2" class="button">2</button>
-		<button value="3" class="button">3</button>
-		<button value="4" class="button">4</button>
-		<button value="5" class="button">5</button>
-		<button value="6" class="button">6</button>
-		<button value="7" class="button">7</button>
-		<button value="8" class="button">8</button>
-		<button value="9" class="button">9</button>
-		<button value="0" class="button">0</button>
-		<button value="+" class="button">+</button>
-		<button value="-" class="button">-</button>
-		<button value="*" class="button">*</button>
-		<button value="/" class="button">/</button>
-		<button value="calculate" class="button">=</button>
+		<button value="1" >1</button>
+		<button value="2" >2</button>
+		<button value="3" >3</button>
+		<button value="4" >4</button>
+		<button value="5" >5</button>
+		<button value="6" >6</button>
+		<button value="7" >7</button>
+		<button value="8" >8</button>
+		<button value="9" >9</button>
+		<button value="0" >0</button>
+		<button value="+" >+</button>
+		<button value="-" >-</button>
+		<button value="*" >*</button>
+		<button value="/" >/</button>
+		<button value="calculate" >=</button>
 	</div>
 
 	<script type="text/javascript">
